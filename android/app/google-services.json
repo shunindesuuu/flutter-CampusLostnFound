@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "839121959872",
+    "project_id": "flutterfire-lostnfound",
+    "storage_bucket": "flutterfire-lostnfound.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839121959872:android:86a580698e2960a4a82625",
+        "android_client_info": {
+          "package_name": "com.example.campus_lost_n_found"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839121959872-2jtfp1ho3mf0d0gcvv4cumf27tq1qg1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC85pmaJGgTgZ5clLY1_vAJVx_EHESd4xE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839121959872-2jtfp1ho3mf0d0gcvv4cumf27tq1qg1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
