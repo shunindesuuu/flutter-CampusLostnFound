@@ -1,10 +1,10 @@
-// import 'package:campus_lost_n_found/pages/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'homepage.dart'; // Import HomePage widget
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                signInwithGoogle();
+                signInWithGoogle(context);
               },
               child: const Text('Login with AdDU Account'),
             ),
@@ -36,24 +36,26 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-signInwithGoogle() async {
-  GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+void signInWithGoogle(BuildContext context) async {
+  try {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-  GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
 
-  AuthCredential credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
-
-  UserCredential userCredential =
-      await FirebaseAuth.instance.signInWithCredential(credential);
-  // print(userCredential.user?.displayName);
-}
-
-void main() {
-  runApp(MaterialApp(
-    title: 'Login Demo',
-    home: LoginScreen(),
-  ));
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(user: userCredential.user),
+      ),
+    );
+  } catch (error) {
+    print("Error signing in with Google: $error");
+    // Handle error gracefully
+  }
 }
