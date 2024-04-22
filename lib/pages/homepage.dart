@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatelessWidget {
   final User? user;
@@ -17,10 +16,16 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Welcome, ${user?.displayName ?? "Guest"}!',
-              style: TextStyle(fontSize: 24.0),
-            ),
+            if (user != null)
+              Text(
+                'Welcome, ${user!.displayName ?? "Guest"}',
+                style: TextStyle(fontSize: 24.0),
+              )
+            else
+              Text(
+                'Welcome, Guest',
+                style: TextStyle(fontSize: 24.0),
+              ),
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
@@ -36,8 +41,9 @@ class HomePage extends StatelessWidget {
 
   void _signOut(BuildContext context) async {
     try {
-      await GoogleSignIn().signOut();
-      Navigator.pop(context); // Pop the homepage from the stack
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushReplacementNamed(
+          context, '/login'); // Navigate to the login screen
     } catch (error) {
       print("Error signing out: $error");
       // Handle error gracefully

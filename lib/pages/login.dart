@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                // Implement login as guest functionality here
+                signInAnonymously(context);
               },
               child: const Text('Login as Guest'),
             ),
@@ -56,6 +56,22 @@ void signInWithGoogle(BuildContext context) async {
     );
   } catch (error) {
     print("Error signing in with Google: $error");
+    // Handle error gracefully
+  }
+}
+
+void signInAnonymously(BuildContext context) async {
+  try {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInAnonymously();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(user: userCredential.user),
+      ),
+    );
+  } catch (error) {
+    print("Error signing in anonymously: $error");
     // Handle error gracefully
   }
 }
