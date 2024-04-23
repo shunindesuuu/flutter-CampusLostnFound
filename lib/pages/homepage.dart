@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
   final User? user;
@@ -41,12 +43,24 @@ class HomePage extends StatelessWidget {
 
   void _signOut(BuildContext context) async {
     try {
+      if (GoogleSignIn().currentUser != null) {
+        await GoogleSignIn().signOut();
+      }
+
+      try {
+        await GoogleSignIn().disconnect();
+      } catch (e) {
+        print('Failed to disconnect on signout: $e');
+      }
       await FirebaseAuth.instance.signOut();
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.remove('isLoggedIn');
+
       Navigator.pushReplacementNamed(
-          context, '/login'); // Navigate to the login screen
+          context, '/login'); // Navigate back to the login screen
     } catch (error) {
       print("Error signing out: $error");
-      // Handle error gracefully
     }
   }
 }

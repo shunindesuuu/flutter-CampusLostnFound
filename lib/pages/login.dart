@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'homepage.dart'; // Import HomePage widget
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key});
@@ -17,7 +18,15 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Text(
+              'Campus Lost n Found',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
             Container(
+              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Color.fromRGBO(65, 130, 242, 1.0),
                 borderRadius: BorderRadius.circular(4.0),
@@ -47,6 +56,15 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20.0),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(10.0), // Slightly rounded corners
+                ),
+                textStyle: TextStyle(
+                  color: Colors.black, // Black text color
+                ),
+              ),
               onPressed: () {
                 signInAnonymously(context);
               },
@@ -71,6 +89,8 @@ void signInWithGoogle(BuildContext context) async {
 
     UserCredential userCredential =
         await FirebaseAuth.instance.signInWithCredential(credential);
+
+    saveLoginState(true); // Save login state
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -87,6 +107,8 @@ void signInAnonymously(BuildContext context) async {
   try {
     UserCredential userCredential =
         await FirebaseAuth.instance.signInAnonymously();
+
+    saveLoginState(true); // Save login state
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -97,4 +119,9 @@ void signInAnonymously(BuildContext context) async {
     print("Error signing in anonymously: $error");
     // Handle error gracefully
   }
+}
+
+Future<void> saveLoginState(bool isLoggedIn) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('isLoggedIn', isLoggedIn);
 }
