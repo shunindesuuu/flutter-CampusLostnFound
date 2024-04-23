@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'homepage.dart'; // Import HomePage widget
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key});
@@ -16,11 +17,33 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                signInWithGoogle(context);
-              },
-              child: const Text('Login with AdDU Account'),
+            Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(65, 130, 242, 1.0),
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: InkWell(
+                onTap: () {
+                  signInWithGoogle(context);
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/images/glogo.svg',
+                      height: 18.0,
+                    ),
+                    SizedBox(width: 8),
+                    DefaultTextStyle(
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'ProductSans',
+                      ),
+                      child: Text('Login with AdDU Account'),
+                    ),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 20.0),
             ElevatedButton(
