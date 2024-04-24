@@ -86,11 +86,10 @@ class LoginScreen extends StatelessWidget {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          10.0), // Slightly rounded corners
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     textStyle: const TextStyle(
-                      color: Colors.black, // Black text color
+                      color: Colors.black,
                     ),
                   ),
                   onPressed: () {

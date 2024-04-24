@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:campus_lost_n_found/pages/itemdetail.dart';
 
 class ItemCard extends StatelessWidget {
   final String name;
@@ -20,55 +21,77 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (image != null && image!.isNotEmpty)
-            Image.network(
-              image![0],
-              width: double.infinity,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Category: $category',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Location Found: $locationFound',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Time Found: ${timeFound.toDate()}',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Claimed: ${claimed ? 'Yes' : 'No'}',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ItemDetailPage(
+              name: name,
+              category: category,
+              locationFound: locationFound,
+              timeFound: timeFound.toDate(),
+              claimed: claimed,
+              images: image,
             ),
           ),
-        ],
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blue.shade800, width: 1.0),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Card(
+          margin: EdgeInsets.all(1),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 5,
+              ),
+              if (image != null && image!.isNotEmpty)
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image: NetworkImage(image![0]),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        'Location Found: $locationFound',
+                        style: TextStyle(fontSize: 10, color: Colors.blue[800]),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        'Time Found: ${timeFound.toDate()}',
+                        style: TextStyle(fontSize: 10, color: Colors.blue[800]),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
