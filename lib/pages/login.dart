@@ -11,66 +11,96 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Campus Lost n Found',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(65, 130, 242, 1.0),
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: InkWell(
-                onTap: () {
-                  signInWithGoogle(context);
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/images/glogo.svg',
-                      height: 18.0,
-                    ),
-                    SizedBox(width: 8),
-                    DefaultTextStyle(
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'ProductSans',
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/addu-ccfc.jpg"),
+              fit: BoxFit.cover),
+        ),
+        child: Center(
+          child: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(20),
+            height: 220,
+            width: 340,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/seal.png',
+                        height: 40,
+                        width: 40,
                       ),
-                      child: Text('Login with AdDU Account'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Campus Lost and Found',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade800,
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      signInWithGoogle(context);
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/glogo.svg',
+                          height: 18.0,
+                        ),
+                        const SizedBox(width: 8),
+                        const DefaultTextStyle(
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'ProductSans',
+                          ),
+                          child: Text('Login with AdDU Account'),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 5.0),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10.0), // Slightly rounded corners
+                    ),
+                    textStyle: const TextStyle(
+                      color: Colors.black, // Black text color
+                    ),
+                  ),
+                  onPressed: () {
+                    signInAnonymously(context);
+                  },
+                  child: const Text('Login as Guest'),
+                ),
+              ],
             ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(10.0), // Slightly rounded corners
-                ),
-                textStyle: TextStyle(
-                  color: Colors.black, // Black text color
-                ),
-              ),
-              onPressed: () {
-                signInAnonymously(context);
-              },
-              child: const Text('Login as Guest'),
-            ),
-          ],
+          ),
         ),
       ),
     );
