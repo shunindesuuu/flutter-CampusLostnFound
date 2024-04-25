@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Campus Lost n Found',
       home: initialRoute,
+      theme: ThemeData(fontFamily: "ProductSans"),
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomePage(),

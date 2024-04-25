@@ -32,7 +32,10 @@ class ItemDetailPage extends StatelessWidget {
           children: [
             if (images != null && images!.isNotEmpty)
               Container(
-                height: MediaQuery.of(context).size.width * 0.6,
+                height: MediaQuery.of(context).size.width *
+                    (MediaQuery.of(context).orientation == Orientation.portrait
+                        ? 0.6
+                        : 0.3), // Adjusted size based on orientation
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: images!.length,
@@ -41,7 +44,11 @@ class ItemDetailPage extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Image.network(
                         images![index],
-                        width: MediaQuery.of(context).size.width * 0.6,
+                        width: MediaQuery.of(context).size.width *
+                            (MediaQuery.of(context).orientation ==
+                                    Orientation.portrait
+                                ? 0.6
+                                : 0.3), // Adjusted size based on orientation
                         fit: BoxFit.cover,
                       ),
                     );
@@ -49,14 +56,48 @@ class ItemDetailPage extends StatelessWidget {
                 ),
               ),
             SizedBox(height: 20),
-            Text(
-              '$name',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Center(
+              child: Text(
+                '$name',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
             SizedBox(height: 10),
-            Text(
-              'Category: $category',
-              style: TextStyle(fontSize: 16, color: Colors.blue[800]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(52, 148, 233, 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    '$category',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: claimed
+                        ? Color.fromRGBO(95, 183, 99, 1)
+                        : Color.fromRGBO(255, 0, 0, 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    '${claimed ? 'Claimed' : 'Unclaimed'}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: 10),
             Text(
@@ -65,12 +106,7 @@ class ItemDetailPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              'Time Found: ${timeFound.toString()}',
-              style: TextStyle(fontSize: 16, color: Colors.blue[800]),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Claimed: ${claimed ? 'Yes' : 'No'}',
+              'Time Found: ${timeFound.day}/${timeFound.month}/${timeFound.year} ${timeFound.hour}:${timeFound.minute}',
               style: TextStyle(fontSize: 16, color: Colors.blue[800]),
             ),
           ],
