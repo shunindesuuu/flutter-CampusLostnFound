@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:campus_lost_n_found/pages/itemdetail.dart';
 
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:campus_lost_n_found/pages/itemdetail.dart';
-
 class ItemCard extends StatelessWidget {
   final String name;
   final String category;
@@ -31,11 +27,11 @@ class ItemCard extends StatelessWidget {
 
     // Calculate the image size based on the screen width
     double imageSize =
-        MediaQuery.of(context).size.width * (isPortrait ? 0.6 : 0.1);
+        MediaQuery.of(context).size.width * (isPortrait ? 0.2 : 0.15);
 
     // Adjust the font size based on the screen width
     double fontSize =
-        MediaQuery.of(context).size.width * (isPortrait ? 0.04 : 0.012);
+        MediaQuery.of(context).size.width * (isPortrait ? 0.02 : 0.015);
 
     return GestureDetector(
       onTap: () {
@@ -68,19 +64,24 @@ class ItemCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 5),
                 if (image != null && image!.isNotEmpty)
-                  Container(
-                    width: imageSize,
-                    height: imageSize,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      image: DecorationImage(
-                        image: NetworkImage(image![0]),
-                        fit: BoxFit.cover,
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                        image: DecorationImage(
+                          image: NetworkImage(image![0]),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
+                SizedBox(height: 5),
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: Column(

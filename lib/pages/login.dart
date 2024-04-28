@@ -11,96 +11,94 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/addu-ccfc.jpg"),
-              fit: BoxFit.cover),
-        ),
-        child: Center(
-          child: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(20),
-            height: 220,
-            width: 340,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/seal.png',
-                        height: 40,
-                        width: 40,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Campus Lost and Found',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade800,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      signInWithGoogle(context);
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/glogo.svg',
-                          height: 18.0,
-                        ),
-                        const SizedBox(width: 8),
-                        const DefaultTextStyle(
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'ProductSans',
-                          ),
-                          child: Text('Login with AdDU Account'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 5.0),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    textStyle: const TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                  onPressed: () {
-                    signInAnonymously(context);
-                  },
-                  child: const Text('Login as Guest'),
-                ),
-              ],
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background Image
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/addu-ccfc.jpg"),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
+          // Logo
+          Positioned(
+            top: 35,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: SvgPicture.asset(
+                'assets/images/applogo.svg',
+                height: 350,
+              ),
+            ),
+          ),
+          // Login Container
+          Center(
+            child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(20),
+              height: 140,
+              width: 300,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  // Login Buttons
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade800,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        signInWithGoogle(context);
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/glogo.svg',
+                            height: 18.0,
+                          ),
+                          const SizedBox(width: 8),
+                          const DefaultTextStyle(
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'ProductSans',
+                            ),
+                            child: Text('Login with AdDU Account'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5.0),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      textStyle: const TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    onPressed: () {
+                      signInAnonymously(context);
+                    },
+                    child: const Text('Login as Guest'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

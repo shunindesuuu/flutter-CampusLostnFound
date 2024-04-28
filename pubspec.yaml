@@ -32,6 +32,7 @@ flutter:
     - assets/images/glogo.svg
     - assets/images/addu-ccfc.jpg
     - assets/images/seal.png
+    - assets/images/applogo.svg
   fonts:
     - family: ProductSans
       fonts:
