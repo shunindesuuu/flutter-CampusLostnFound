@@ -18,83 +18,106 @@ class LoginScreen extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/addu-ccfc.jpg"),
+                image: AssetImage("assets/images/bglogin.png"),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           // Logo
           Positioned(
-            top: 35,
+            top: 50,
             left: 0,
             right: 0,
             child: Center(
               child: SvgPicture.asset(
                 'assets/images/applogo.svg',
-                height: 350,
+                height: 300,
               ),
             ),
           ),
           // Login Container
           Center(
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(20),
-              height: 140,
-              width: 300,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // Login Buttons
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade800,
-                      borderRadius: BorderRadius.circular(4.0),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 300),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                width: MediaQuery.of(context).size.width * 0.85,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 10,
+                      offset: const Offset(0, 5),
                     ),
-                    child: InkWell(
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    GestureDetector(
                       onTap: () {
                         signInWithGoogle(context);
                       },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/images/glogo.svg',
-                            height: 18.0,
-                          ),
-                          const SizedBox(width: 8),
-                          const DefaultTextStyle(
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'ProductSans',
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 18, 21, 196),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/glogo.svg',
+                              height: 18.0,
                             ),
-                            child: Text('Login with AdDU Account'),
-                          ),
-                        ],
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Login with AdDU Account',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 5.0),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      textStyle: const TextStyle(
-                        color: Colors.black,
+                    const SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () {
+                        signInAnonymously(context);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 119, 171, 238),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.person,
+                              color: Color.fromARGB(255, 14, 34, 119),
+                              size: 24,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              'Login as Guest',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 14, 34, 119),
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    onPressed: () {
-                      signInAnonymously(context);
-                    },
-                    child: const Text('Login as Guest'),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
