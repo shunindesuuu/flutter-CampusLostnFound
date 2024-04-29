@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:campus_lost_n_found/pages/itemdetail.dart';
+import 'package:intl/intl.dart'; // Import the intl package
 
 class ItemCard extends StatelessWidget {
   final String name;
@@ -25,9 +26,16 @@ class ItemCard extends StatelessWidget {
     bool isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
 
+    double imageSize =
+        MediaQuery.of(context).size.width * (isPortrait ? 0.2 : 0.15);
+
     // Adjust the font size based on the screen width
     double fontSize =
         MediaQuery.of(context).size.width * (isPortrait ? 0.04 : 0.0106);
+
+    // Format the date
+    String formattedDate =
+        DateFormat('dd/MM/yyyy HH:mm').format(timeFound.toDate());
 
     return GestureDetector(
       onTap: () {
@@ -118,7 +126,7 @@ class ItemCard extends StatelessWidget {
                       ),
                       SizedBox(height: 2),
                       Text(
-                        'Time Found: ${timeFound.toDate()}',
+                        'Time Found: $formattedDate', // Use the formatted date
                         style:
                             TextStyle(fontSize: fontSize, color: Colors.white),
                       ),
