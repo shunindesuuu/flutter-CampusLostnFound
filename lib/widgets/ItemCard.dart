@@ -25,13 +25,9 @@ class ItemCard extends StatelessWidget {
     bool isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
 
-    // Calculate the image size based on the screen width
-    double imageSize =
-        MediaQuery.of(context).size.width * (isPortrait ? 0.2 : 0.15);
-
     // Adjust the font size based on the screen width
     double fontSize =
-        MediaQuery.of(context).size.width * (isPortrait ? 0.02 : 0.015);
+        MediaQuery.of(context).size.width * (isPortrait ? 0.04 : 0.0106);
 
     return GestureDetector(
       onTap: () {
@@ -56,19 +52,19 @@ class ItemCard extends StatelessWidget {
         child: Card(
           margin: EdgeInsets.all(1),
           elevation: 5.0,
+          color: Colors.blue[800],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           child: Container(
-            // Set a minimum height if needed
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (image != null && image!.isNotEmpty)
-                  Flexible(
-                    flex: 1,
+                  AspectRatio(
+                    aspectRatio: 16 /
+                        9, // Adjust this value based on your desired aspect ratio
                     child: Container(
-                      width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
@@ -117,14 +113,14 @@ class ItemCard extends StatelessWidget {
                       SizedBox(height: 2),
                       Text(
                         'Location Found: $locationFound',
-                        style: TextStyle(
-                            fontSize: fontSize, color: Colors.blue[800]),
+                        style:
+                            TextStyle(fontSize: fontSize, color: Colors.white),
                       ),
                       SizedBox(height: 2),
                       Text(
                         'Time Found: ${timeFound.toDate()}',
-                        style: TextStyle(
-                            fontSize: fontSize, color: Colors.blue[800]),
+                        style:
+                            TextStyle(fontSize: fontSize, color: Colors.white),
                       ),
                     ],
                   ),
