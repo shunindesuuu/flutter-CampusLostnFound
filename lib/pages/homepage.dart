@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:campus_lost_n_found/widgets/ItemCard.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HomePage extends StatefulWidget {
   final User? user;
@@ -18,12 +19,13 @@ class _HomePageState extends State<HomePage> {
   List<String> searchHistory = [];
 
   bool _isSearchBarFocused = false;
+  bool _isSearchBarVisible = false;
 
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_updateSearchResults);
-    _loadSearchHistory();
+    loadSearchHistory();
   }
 
   @override
@@ -39,13 +41,6 @@ class _HomePageState extends State<HomePage> {
 
   void _onSearchSubmitted(String value) {
     _updateSearchHistory(value);
-    _searchController.clear(); // Clear the search field
-  }
-
-  void _resetSearch() {
-    setState(() {
-      _searchController.clear();
-    });
   }
 
   void _clearSearchHistory() async {
@@ -59,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _loadSearchHistory() async {
+  void loadSearchHistory() async {
     if (widget.user != null) {
       var snapshot =
           await _firestore.collection('users').doc(widget.user!.uid).get();
@@ -97,8 +92,7 @@ class _HomePageState extends State<HomePage> {
   void _signOut(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
-      Navigator.popAndPushNamed(
-          context, '/login'); // Navigate back to the login screen
+      Navigator.popAndPushNamed(context, '/login');
     } catch (error) {
       print("Error signing out: $error");
     }
@@ -107,27 +101,46 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final crossAxisCount =
-        screenWidth ~/ 200; // Adjust 200 according to your card width
+    final crossAxisCount = screenWidth ~/ 200;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Campus Lost and Found',
-          style: TextStyle(color: Colors.white),
+        title: const Text(
+          'CampusFind',
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1),
         ),
+        titleSpacing: screenWidth * 0.20,
         backgroundColor: Colors.blue[800],
+        foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu),
+              icon: Image.asset(
+                'assets/images/CampusFind Logo.png',
+                width: 54,
+                height: 54,
+              ),
               onPressed: () {
-                Scaffold.of(context).openDrawer(); // Opens the drawer
+                Scaffold.of(context).openDrawer();
               },
             );
           },
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              setState(() {
+                _isSearchBarVisible = !_isSearchBarVisible;
+              });
+            },
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -137,26 +150,40 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 color: Colors.blue[800],
               ),
-              child: Text(
-                'Welcome, ${widget.user != null ? widget.user!.displayName ?? "Guest" : "Guest"}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24.0,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: widget.user?.photoURL != null
+                        ? NetworkImage(widget.user!.photoURL!)
+                        : AssetImage('assets/default_user_image.png')
+                            as ImageProvider<Object>?,
+                    backgroundColor: Colors.transparent,
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    '${widget.user != null ? widget.user!.displayName ?? "Guest" : "Guest"}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 550.0),
+            const SizedBox(height: 0),
             Container(
               color: Colors.red,
               child: ListTile(
-                title: Text(
+                title: const Text(
                   'Sign Out',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.0,
                   ),
                 ),
-                leading: Icon(
+                leading: const Icon(
                   Icons.exit_to_app,
                   color: Colors.white,
                 ),
@@ -171,48 +198,49 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  alignment: Alignment.centerRight,
-                  children: [
-                    TextFormField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        labelText: "Search",
-                      ),
-                      onFieldSubmitted: _onSearchSubmitted,
-                      onTap: () {
-                        setState(() {
-                          _isSearchBarFocused = true;
-                        });
-                      },
-                    ),
-                    if (_isSearchBarFocused)
-                      IconButton(
-                        icon: Icon(Icons.arrow_drop_down),
-                        onPressed: () {
+          if (_isSearchBarVisible)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      TextFormField(
+                        controller: _searchController,
+                        decoration: const InputDecoration(
+                          labelText: "Search",
+                        ),
+                        onFieldSubmitted: _onSearchSubmitted,
+                        onTap: () {
                           setState(() {
-                            _isSearchBarFocused = false;
+                            _isSearchBarFocused = true;
                           });
                         },
                       ),
-                  ],
-                ),
-                if (_isSearchBarFocused) _buildSearchHistoryDropdown(),
-              ],
+                      if (_isSearchBarFocused)
+                        IconButton(
+                          icon: const Icon(Icons.arrow_drop_down),
+                          onPressed: () {
+                            setState(() {
+                              _isSearchBarFocused = false;
+                            });
+                          },
+                        ),
+                    ],
+                  ),
+                  if (_isSearchBarFocused) _buildSearchHistoryDropdown(),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
           Expanded(
             child: StreamBuilder(
               stream: _firestore.collection('items').snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -227,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                 }).toList();
 
                 return GridView.builder(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
                     crossAxisSpacing: 16.0,
@@ -256,8 +284,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildSearchHistoryDropdown() {
-    final limitedSearchHistory =
-        searchHistory.take(3).toList(); // Limit search history to 3 items
+    final limitedSearchHistory = searchHistory.take(3).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,7 +292,7 @@ class _HomePageState extends State<HomePage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Your search history',
               style: TextStyle(
                 fontSize: 12.0,
@@ -274,25 +301,25 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: _clearSearchHistory,
-              child: Text(
+              child: const Text(
                 'Clear History',
                 style: TextStyle(
                   fontSize: 12.0,
-                  color: Colors.red, // Change color according to your design
+                  color: Colors.red,
                 ),
               ),
             ),
           ],
         ),
-        SizedBox(height: 4.0),
+        const SizedBox(height: 4.0),
         for (String term in limitedSearchHistory)
           ListTile(
             title: Text(
               term,
-              style: TextStyle(fontSize: 12.0),
+              style: const TextStyle(fontSize: 12.0),
             ),
             trailing: IconButton(
-              icon: Icon(Icons.clear, size: 16.0),
+              icon: const Icon(Icons.clear, size: 16.0),
               onPressed: () {
                 _deleteSearchTerm(term);
               },

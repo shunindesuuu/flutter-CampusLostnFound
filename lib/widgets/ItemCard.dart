@@ -80,6 +80,26 @@ class ItemCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                  )
+                else
+                  Container(
+                    height: imageSize,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '?',
+                        style: TextStyle(
+                            fontSize: 34, // Adjust the font size as needed
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue.shade900),
+                      ),
+                    ),
                   ),
                 SizedBox(height: 5),
                 Padding(

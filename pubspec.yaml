@@ -33,8 +33,10 @@ flutter:
     - assets/images/addu-ccfc.jpg
     - assets/images/seal.png
     - assets/images/applogo.svg
+    - assets/images/applogo-white.svg
     - assets/images/bglogin.png
-    
+    - assets/images/CampusFind Logo.png
+
   fonts:
     - family: ProductSans
       fonts:
