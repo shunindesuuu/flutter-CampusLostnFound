@@ -145,20 +145,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            ListTile(
-              title: Text(
-                'Clear Search History',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                ),
-              ),
-              leading: Icon(
-                Icons.delete,
-                color: Colors.white,
-              ),
-              onTap: _clearSearchHistory,
-            ),
             SizedBox(height: 550.0),
             Container(
               color: Colors.red,
@@ -273,38 +259,50 @@ class _HomePageState extends State<HomePage> {
     final limitedSearchHistory =
         searchHistory.take(3).toList(); // Limit search history to 3 items
 
-    return Container(
-      padding: EdgeInsets.only(top: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Your search history',
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.bold,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Your search history',
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          SizedBox(height: 4.0),
-          for (String term in limitedSearchHistory)
-            ListTile(
-              title: Text(
-                term,
-                style: TextStyle(fontSize: 12.0),
+            TextButton(
+              onPressed: _clearSearchHistory,
+              child: Text(
+                'Clear History',
+                style: TextStyle(
+                  fontSize: 12.0,
+                  color: Colors.red, // Change color according to your design
+                ),
               ),
-              trailing: IconButton(
-                icon: Icon(Icons.clear, size: 16.0),
-                onPressed: () {
-                  _deleteSearchTerm(term);
-                },
-              ),
-              onTap: () {
-                _searchController.text = term;
-                _updateSearchHistory(term);
+            ),
+          ],
+        ),
+        SizedBox(height: 4.0),
+        for (String term in limitedSearchHistory)
+          ListTile(
+            title: Text(
+              term,
+              style: TextStyle(fontSize: 12.0),
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.clear, size: 16.0),
+              onPressed: () {
+                _deleteSearchTerm(term);
               },
             ),
-        ],
-      ),
+            onTap: () {
+              _searchController.text = term;
+              _updateSearchHistory(term);
+            },
+          ),
+      ],
     );
   }
 }
