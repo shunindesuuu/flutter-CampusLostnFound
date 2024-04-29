@@ -23,6 +23,7 @@ class ItemDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Details', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue[800],
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
