@@ -8,7 +8,7 @@ class ItemDetailPage extends StatelessWidget {
   final bool claimed;
   final List<dynamic>? images;
 
-  ItemDetailPage({
+  const ItemDetailPage({super.key, 
     required this.name,
     required this.category,
     required this.locationFound,
@@ -21,17 +21,17 @@ class ItemDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details', style: TextStyle(color: Colors.white)),
+        title: const Text('Details', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue[800],
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (images != null && images!.isNotEmpty)
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.width *
                     (MediaQuery.of(context).orientation == Orientation.portrait
                         ? 0.6
@@ -55,7 +55,7 @@ class ItemDetailPage extends StatelessWidget {
                   },
                 ),
               ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Card(
               color: Colors.blue[800],
               elevation: 4,
@@ -66,59 +66,59 @@ class ItemDetailPage extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                        '$name',
-                        style: TextStyle(
+                        name,
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(52, 148, 233, 1),
+                            color: const Color.fromRGBO(52, 148, 233, 1),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           child: Text(
-                            '$category',
-                            style: TextStyle(
+                            category,
+                            style: const TextStyle(
                               fontSize: 16,
-                              color: const Color.fromARGB(255, 255, 255, 255),
+                              color: Color.fromARGB(255, 255, 255, 255),
                             ),
                           ),
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Container(
                           decoration: BoxDecoration(
                             color: claimed
-                                ? Color.fromRGBO(95, 183, 99, 1)
-                                : Color.fromRGBO(255, 0, 0, 1),
+                                ? const Color.fromRGBO(95, 183, 99, 1)
+                                : const Color.fromRGBO(255, 0, 0, 1),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           child: Text(
-                            '${claimed ? 'Claimed' : 'Unclaimed'}',
-                            style: TextStyle(
+                            claimed ? 'Claimed' : 'Unclaimed',
+                            style: const TextStyle(
                               fontSize: 16,
-                              color: const Color.fromARGB(255, 255, 255, 255),
+                              color: Color.fromARGB(255, 255, 255, 255),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       'Location Found: $locationFound',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: const TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       'Time Found: ${timeFound.day}/${timeFound.month}/${timeFound.year} ${timeFound.hour}:${timeFound.minute}',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: const TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ],
                 ),

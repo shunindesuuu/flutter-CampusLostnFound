@@ -19,7 +19,7 @@ void main() async {
   if (isLoggedIn && user != null) {
     initialRoute = HomePage(user: user);
   } else {
-    initialRoute = LoginScreen();
+    initialRoute = const LoginScreen();
   }
 
   runApp(MyApp(initialRoute: initialRoute));
@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
       home: initialRoute,
       theme: ThemeData(fontFamily: "ProductSans"),
       routes: {
-        '/login': (context) => LoginScreen(),
-        '/home': (context) => HomePage(),
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const HomePage(),
       },
     );
   }

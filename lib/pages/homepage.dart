@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:campus_lost_n_found/widgets/ItemCard.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatefulWidget {
   final User? user;
 
-  const HomePage({Key? key, this.user}) : super(key: key);
+  const HomePage({super.key, this.user});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -91,8 +91,18 @@ class _HomePageState extends State<HomePage> {
 
   void _signOut(BuildContext context) async {
     try {
+      if (GoogleSignIn().currentUser != null) {
+        await GoogleSignIn().signOut();
+      }
+
+      try {
+        await GoogleSignIn().disconnect();
+      } catch (e) {
+        print('Failed to disconnect on signout: $e');
+      }
       await FirebaseAuth.instance.signOut();
-      Navigator.popAndPushNamed(context, '/login');
+      Navigator.pushReplacementNamed(
+          context, '/login'); // Navigate back to the login screen
     } catch (error) {
       print("Error signing out: $error");
     }
@@ -133,7 +143,7 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {
               setState(() {
                 _isSearchBarVisible = !_isSearchBarVisible;
@@ -157,14 +167,14 @@ class _HomePageState extends State<HomePage> {
                     radius: 40,
                     backgroundImage: widget.user?.photoURL != null
                         ? NetworkImage(widget.user!.photoURL!)
-                        : AssetImage('assets/default_user_image.png')
+                        : const AssetImage('assets/default_user_image.png')
                             as ImageProvider<Object>?,
                     backgroundColor: Colors.transparent,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
-                    '${widget.user != null ? widget.user!.displayName ?? "Guest" : "Guest"}',
-                    style: TextStyle(
+                    widget.user != null ? widget.user!.displayName ?? "Guest" : "Guest",
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,
                     ),
@@ -237,7 +247,10 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: 20.0),
           Expanded(
             child: StreamBuilder(
-              stream: _firestore.collection('items').snapshots(),
+              stream: _firestore
+                  .collection('items')
+                  .where('claimed', isEqualTo: false)
+                  .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
