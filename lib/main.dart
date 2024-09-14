@@ -1,9 +1,10 @@
 import 'package:campus_lost_n_found/pages/homepage.dart';
-import 'package:campus_lost_n_found/pages/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'pages/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ void main() async {
   if (isLoggedIn && user != null) {
     initialRoute = HomePage(user: user);
   } else {
-    initialRoute = LoginScreen();
+    initialRoute = const LoginScreen();
   }
 
   runApp(MyApp(initialRoute: initialRoute));
@@ -26,6 +27,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final Widget initialRoute;
+  // final bool isLoggedIn;
 
   const MyApp({Key? key, required this.initialRoute});
 
@@ -33,11 +35,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Midterm Examination',
+      title: 'Campus Lost n Found',
       home: initialRoute,
+      theme: ThemeData(fontFamily: "ProductSans"),
       routes: {
-        '/login': (context) => LoginScreen(),
-        '/home': (context) => HomePage(),
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const HomePage(),
       },
     );
   }
